@@ -1,4 +1,5 @@
-# King Strength - Our AI Health App Entry for [Afrotech](https://afrotech.devpost.com)
+# King Strength
+## Our AI Health App Entry for [Afrotech](https://afrotech.devpost.com)
 
 ## What? 
 
@@ -19,6 +20,11 @@
 HTMX Frontend
 
 Zig Backend
+
+### PreReqs-
+
+Install Zig
+Use WSL on Windows
 
 # Ideas++
 
