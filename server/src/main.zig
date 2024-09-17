@@ -1,5 +1,6 @@
 const std = @import("std");
 const zap = @import("zap");
+//const Endpoint = @import("Endpoint.zig");
 
 fn on_request(r: zap.Request) void {
     if (r.path) |the_path| {
@@ -9,14 +10,29 @@ fn on_request(r: zap.Request) void {
         if (std.mem.eql(u8, the_path, "clicked")){
             std.debug.print("idk: {s}\n", .{"work?"});
             r.sendBody("<html><body><h1>Clicked HTMX Response</h1></body></html>") catch return;
+        } else {
+            //const testT = std.fmt.formatText("<h1>weep{s}</h1>", .{the_path});
+            r.sendBody("<h1>weep</h1>") catch return;
         }
     }
 
     if (r.query) |the_query| {
         std.debug.print("QUERY: {s}\n", .{the_query});
     }
+    // if (r.path) |the_path| {
 
-    r.sendBody("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>King Strength</title></head><body><script src='https://unpkg.com/htmx.org@2.0.2'></script><!-- have a button POST a click via AJAX --><button hx-post='/clicked' hx-swap='outerHTML'>Click Me</button></body></html>") catch return;
+    // const path:i32 = std.fmt.parseInt(i32, the_path, 10);
+    
+    // switch (std.fmt.parseInt(path)) {
+    //     0 =>
+    //     r.sendBody("<h1>ZERO</h1>"),
+    //     1 => 
+    //     r.sendBody("<h1>Clicked HTMX Response</h1>"),
+    //     2 =>
+    //     r.sendBody("<h1>2 HTMX Response</h1>")
+    // }
+    // }
+    r.sendBody("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>King Strength</title></head><body><script src='https://unpkg.com/htmx.org@2.0.2'></script><!-- have a button POST a click via AJAX --><button hx-post='/1' hx-swap='outerHTML' hx-target='#results'>Click Me</button><div id='results'></div></body></html>") catch return;
 }
 
 // const testSettings = struct {
@@ -39,6 +55,10 @@ fn on_request(r: zap.Request) void {
 //     };
 // }
 
+// pub fn on_clicked_request(r: zap.Request) void {
+
+// }
+
 pub fn main() !void {
     var listener = zap.HttpListener.init(.{
         .port = 3000,
@@ -48,7 +68,7 @@ pub fn main() !void {
     });
     try listener.listen();
 
-    std.debug.print("Listening on 0.0.0.0:3000\n", .{});
+    std.debug.print("Listening on http://localhost:3000\n", .{});
 
     zap.start(.{
         .threads = 2,
