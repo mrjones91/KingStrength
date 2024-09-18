@@ -7,13 +7,20 @@ fn on_request(r: zap.Request) void {
         std.debug.print("PATH: {s}\n", .{the_path});
         //std.debug.print("r.path type is: {s}", .{@TypeOf(the_path)});
         //const rp = the_path[0..];
-        if (std.mem.eql(u8, the_path, "clicked")){
+        std.debug.print("{s}", .{the_path});
+        
+        if (std.mem.eql(u8, the_path, "/clicked")){
             std.debug.print("idk: {s}\n", .{"work?"});
-            r.sendBody("<html><body><h1>Clicked HTMX Response</h1></body></html>") catch return;
-        } else {
-            //const testT = std.fmt.formatText("<h1>weep{s}</h1>", .{the_path});
-            r.sendBody("<h1>weep</h1>") catch return;
-        }
+            r.sendBody("<h1>Clicked HTMX Response</h1>") catch return;
+        } 
+        if (std.mem.eql(u8, the_path, "/another")){
+            std.debug.print("idk: {s}\n", .{"work?"});
+            r.sendBody("<h1>ANOTHER HTMX Response</h1>") catch return;
+        } 
+        // else {
+        //     //const testT = std.fmt.formatText("<h1>weep{s}</h1>", .{the_path});
+        //     r.sendBody("<h1>weep</h1>") catch return;
+        // }
     }
 
     if (r.query) |the_query| {
@@ -32,7 +39,7 @@ fn on_request(r: zap.Request) void {
     //     r.sendBody("<h1>2 HTMX Response</h1>")
     // }
     // }
-    r.sendBody("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>King Strength</title></head><body><script src='https://unpkg.com/htmx.org@2.0.2'></script><!-- have a button POST a click via AJAX --><button hx-post='/1' hx-swap='outerHTML' hx-target='#results'>Click Me</button><div id='results'></div></body></html>") catch return;
+    r.sendBody("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>King Strength</title></head><body><script src='https://unpkg.com/htmx.org@2.0.2'></script><!-- have a button POST a click via AJAX --><button hx-post='/clicked' hx-swap='innerHTML' hx-target='#results'>Click Me</button><button hx-post='/another' hx-swap='innerHTML' hx-target='#results'>No Me</button><div id='results'></div></body></html>") catch return;
 }
 
 // const testSettings = struct {
